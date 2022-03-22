@@ -133,6 +133,25 @@ module.exports = [
         },
     },
     {
+        zigbeeModel: ['LXN-4S27LX1.0'],
+        model: 'NUE-ZB404B',
+        vendor: 'Nue / 3A',
+        description: 'Smart light switch - 4 gang v3.0',
+        extend: extend.switch(),
+        exposes: [e.switch().withEndpoint('top_left'), e.switch().withEndpoint('top_right'),
+            e.switch().withEndpoint('bottom_left'), e.switch().withEndpoint('bottom_right')],
+        endpoint: (device) => {
+            return {'top_left': 16, 'top_right': 17, 'bottom_right': 18, 'bottom_left': 19};
+        },
+        meta: {multiEndpoint: true},
+        configure: async (device, coordinatorEndpoint, logger) => {
+            await reporting.bind(device.getEndpoint(1), coordinatorEndpoint, ['genOnOff']);
+            await reporting.bind(device.getEndpoint(2), coordinatorEndpoint, ['genOnOff']);
+            await reporting.bind(device.getEndpoint(3), coordinatorEndpoint, ['genOnOff']);
+            await reporting.bind(device.getEndpoint(4), coordinatorEndpoint, ['genOnOff']);
+        },
+    },
+    {
         zigbeeModel: ['FB56+ZSC05HG1.0', 'FNB56-ZBW01LX1.2', 'LXN56-DS27LX1.3', 'LXN60-DS27LX1.3'],
         model: 'HGZB-04D / HGZB-4D-UK',
         vendor: 'Nue / 3A',
@@ -282,10 +301,10 @@ module.exports = [
         extend: extend.light_onoff_brightness_colortemp_color(),
     },
     {
-        zigbeeModel: ['LXN60-LS27-Z30'],
+        zigbeeModel: ['LXN60-LS27-Z30','FEB56-ZCW2CLX1.0'],
         model: 'WL-SD001-9W',
         vendor: 'Nue / 3A',
-        description: '9W RGB LED downlight',
+        description: 'Nue RGBW Light',
         extend: extend.light_onoff_brightness_colortemp_color({colorTempRange: [153, 370]}),
     },
     {
